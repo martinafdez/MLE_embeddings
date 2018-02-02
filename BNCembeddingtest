@@ -1,0 +1,49 @@
+import gensim
+from gensim.corpora.dictionary import Dictionary
+from gensim import corpora, similarities, models
+from gensim.models import Word2Vec
+from gensim.parsing.preprocessing import  stem_text, strip_punctuation
+
+import nltk
+from nltk import word_tokenize
+
+import os
+
+# input
+class MySentences(object):
+    def __init__(self, dirname):
+        self.dirname = dirname
+
+    def __iter__(self):
+        for fname in os.listdir(self.dirname):
+            for line in open(os.path.join(self.dirname, fname)):
+                yield line.split()
+
+
+sentences = MySentences("/Users/martinafernandez/Desktop/CorpusStandard/")
+
+
+#run basic pre-processing
+def preprocess (sentences):
+    for sent in sentences:
+        sent = sent.lower(sent)
+        sent = word_tokenize(sent)
+        sent = stem_text(sent)
+        sent = strip_punctuation(sent)
+        return sent
+
+
+# train model
+model = gensim.models.Word2Vec(sentences, size = 300, min_count= 1)
+print(model)
+# summarize vocabulary
+words = list(model.wv.vocab)
+print(words)
+# access vector for one word
+print(model['air'])
+# save model
+model.save('BNCPracticeEmbeddings-airP.bin')
+# load model
+new_model = Word2Vec.load('BNCPracticeEmbeddings-airP.bin')
+print(new_model)
+
