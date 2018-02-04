@@ -12,6 +12,12 @@ import nltk
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 
+from scipy import spatial
+
+
+## which word?
+#targetword = sys.argv[1]
+targetword = 'air'
 
 # input
 class MySentences(object):
@@ -125,7 +131,7 @@ print(new_modelstand)
 print(new_modelMLE)
 
 
-
+## 2 functions below from Ryan Heuser https://gist.github.com/quadrismegistus/09a93e219a6ffc4f216fb85235535faf
 def intersection_align_gensim(m1, m2, words=None):
     """
     Intersect two gensim word2vec models, m1 and m2.
@@ -174,9 +180,6 @@ def intersection_align_gensim(m1, m2, words=None):
 
     return (m1, m2)
 
-(alignedStandard, alignedMLE) = intersection_align_gensim(new_modelstand, new_modelMLE)
-
-
 def smart_procrustes_align_gensim(base_embed, other_embed, words=None):
     """Procrustes align two gensim word2vec models (to allow for comparison between same word across models).
     Code ported from HistWords <https://github.com/williamleif/histwords> by William Hamilton <wleif@stanford.edu>.
@@ -205,3 +208,10 @@ def smart_procrustes_align_gensim(base_embed, other_embed, words=None):
     # i.e. multiplying the embedding matrix (syn0norm)by "ortho"
     other_embed.syn0norm = other_embed.syn0 = (other_embed.syn0norm).dot(ortho)
     return other_embed
+
+MLEaligned = smart_procrustes_align_gensim(new_modelstand, new_modelMLE)
+## which words?
+u = new_modelstand[targetword]
+print(u)
+v = MLEaligned[targetword]
+#scipy.spatial.distance.cosine(u, v)
