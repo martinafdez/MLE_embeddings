@@ -108,7 +108,6 @@ for corps, sentences in corpus.iteritems():
 
 
 
-
 # summarize vocabulary
 #words_stand = list(modelStandard80s.wv.vocab)
 # print(words_stand)
