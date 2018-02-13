@@ -31,14 +31,17 @@ with open ('MLE2010S.vocab', 'rb') as f:
     MLE2010 = pickle.load(f)
 
 
-print (S2010[targetword])
-print (MLE2010[targetword])
+targetvecA = S2010[targetword]
+targetvecB = MLE2010[targetword]
 
-S2010.save('S2010air.bin')
-MLE2010.save('MLE2010air.bin')
+#print (S2010[targetword])
+#print (MLE2010[targetword])
 
-Standard2010_air = Word2Vec.load ('S2010air.bin')
-MLE2010_air = Word2Vec.load('MLE2010air.bin')
+#S2010.save('S2010air.bin')
+#MLE2010.save('MLE2010air.bin')
+
+#Standard2010_air = Word2Vec.load ('S2010air.bin')
+#MLE2010_air = Word2Vec.load('MLE2010air.bin')
 
 
 
@@ -123,9 +126,6 @@ def smart_procrustes_align_gensim(base_embed, other_embed, words=None):
     return other_embed
 
 
-MLEaligned = smart_procrustes_align_gensim(Standard2010_air, MLE2010_air)
-## which words?
-u = Standard2010_air[targetword]
-print(u)
-v = MLEaligned[targetword]
-scipy.spatial.distance.cosine(u, v)
+
+alignedvecB = smart_procrustes_align_gensim(targetvecA, targetvecB)
+scipy.spatial.distance.cosine(targetvecA, alignedvecB)
