@@ -98,11 +98,13 @@ for root, dirs, files in os.walk(dirpath):
 # print(model)
 
 for corps, sentences in corpus.iteritems():
-    model = gensim.models.Word2Vec(corpus)
+    model = gensim.models.Word2Vec(sentences)
+    modelfile = corps + '.bin'
+    model.save(modelfile)
     words = list(model.wv.vocab)
-    with open ('model + vocab', 'wb'):
-        pickle.dump(model, words)
-
+    vocabfile = corps + '.vocab'
+    with open (vocabfile, 'wb') as f:
+        pickle.dump(words, f)
 
 
 
