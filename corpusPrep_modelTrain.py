@@ -102,7 +102,7 @@ for corps, sentences in corpus.iteritems():
     wv = model.wv
     fileout = corps + '.vec'
     wv.save(fileout)
-    words = list(model.wv.vocab)
+    #words = list(model.wv.vocab)
     #vocabfile = corps + '.vocab'
     #with open (vocabfile, 'wb') as f:
     #    pickle.dump(words, f)
