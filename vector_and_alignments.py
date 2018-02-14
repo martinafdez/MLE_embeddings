@@ -2,7 +2,7 @@ import gensim
 import numpy as np
 import pickle
 
-from gensim.models import Word2Vec
+from gensim.models import KeyedVectors
 import scipy
 from scipy import spatial
 
@@ -127,4 +127,4 @@ def smart_procrustes_align_gensim(base_embed, other_embed, words=None):
 
 
 wv2aligned = smart_procrustes_align_gensim(wv1, wv2)
-scipy.spatial.distance.cosine(wv1[targetword], wv2[targetword])
+print '%s vs %s. Target word [ %s ], cosine = %.4f' % (corpus1, corpus2, targetword, scipy.spatial.distance.cosine(wv1[targetword], wv2[targetword]))
