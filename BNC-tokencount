@@ -54,11 +54,27 @@ wordcounter = Counter()
 corpus = {}
 #dirpath = '/Users/apc38/Dropbox/workspace/gitHub/wordtracker/MLEembeddings_cainesap/Corpus'  # Andrew
 dirpath = '/Users/martinafernandez/Desktop/Corpus/MLE2010s'  # Martina
-for w in words:
-    wordcounter[words] = 0
-    for file in dirpath:
-        for line in file:
-            tokens = line.split()
-            for token in tokens:
-                if token in words:
-                    wordcounter[words] += 1
+for root, dirs, files in os.walk(dirpath):
+    # all files in directory
+    for name in files:
+        filepath = os.path.join(root, name)  # construct filepath
+        if re.search('.txt$', filepath):  # check it's a text file
+            subcorp = re.search('\w+\d{4}s', filepath).group()  # get decade and text type
+            with open(filepath) as f:
+                rawsents = f.readlines()  # load text as a list of sentences
+            f.close()
+            ## sentence clean up
+            for snum, sent in enumerate(rawsents):
+                sent = strip_punctuation(sent)  # rm punctuation from sentence string; returns string
+                if sent is not None and re.search('\w', sent):  # ignore empty lines
+                    if not re.search('^\s*\r\n$', sent):
+                        #                       sent = stem_text(sent)  # gensim stemmer: n.b. lower cases too
+                        sent = regepxreprocess(sent, repdict)
+                        for w in words:
+                            wordcounter[words] = 0
+                            for file in dirpath:
+                                for line in file:
+                                    tokens = line.split()
+                                    for token in tokens:
+                                        if token in words:
+                                            wordcounter[words] += 1
