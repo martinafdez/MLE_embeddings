@@ -78,3 +78,4 @@ for root, dirs, files in os.walk(dirpath):
                                     for token in tokens:
                                         if token in words:
                                             wordcounter[words] += 1
+                                            print wordcounter
