@@ -46,9 +46,9 @@ def replace_all(w, dic):
                 w = v
     return w
 
-words = ['air', 'gas', 'gassed', 'beef', 'butters', 'spice', 'spicy', 'rinse', 'rinsed', 'rinsing', 'jam', 'dip', 'dough', 'bread', 'food', 'sauce', 'whip', 'whipping', 'pepper', 'dry', 'dead', 'hot', 'cold', 'hard', 'soft', 'myth', 'pagan', 'ghost', 'spit', 'lick', 'licked', 'body', 'buff', 'clapped', 'clap', 'man', 'blood', 'safe', 'deep', 'peak', 'long', 'ends', 'bait', 'paper', 'bars', 'spray', 'bare', 'feds', 'pen', 'gangster', 'dutty', 'yard', 'dem', 'nuff', 'ting', 'bun', 'brother', 'cousin', 'brethren', 'family', 'don', 'cheddar', 'moist', 'crumb', 'coin', 'corn', 'roll', 'bounce', 'shook']
+words = {'air', 'gas', 'gassed', 'beef', 'butters', 'spice', 'spicy', 'rinse', 'rinsed', 'rinsing', 'jam', 'dip', 'dough', 'bread', 'food', 'sauce', 'whip', 'whipping', 'pepper', 'dry', 'dead', 'hot', 'cold', 'hard', 'soft', 'myth', 'pagan', 'ghost', 'spit', 'lick', 'licked', 'body', 'buff', 'clapped', 'clap', 'man', 'blood', 'safe', 'deep', 'peak', 'long', 'ends', 'bait', 'paper', 'bars', 'spray', 'bare', 'feds', 'pen', 'gangster', 'dutty', 'yard', 'dem', 'nuff', 'ting', 'bun', 'brother', 'cousin', 'brethren', 'family', 'don', 'cheddar', 'moist', 'crumb', 'coin', 'corn', 'roll', 'bounce', 'shook'}
 
-wordcounter = Counter()
+#wordcounter = Counter()
 
 # define corpus dictionary
 corpus = {}
@@ -70,12 +70,13 @@ for root, dirs, files in os.walk(dirpath):
                     if not re.search('^\s*\r\n$', sent):
                         #                       sent = stem_text(sent)  # gensim stemmer: n.b. lower cases too
                         sent = regepxreprocess(sent, repdict)
-                        for w in words:
-                            wordcounter[words] = 0
-                            for file in dirpath:
-                                for line in file:
-                                    tokens = line.split()
-                                    for token in tokens:
-                                        if token in words:
-                                            wordcounter[words] += 1
-                                            print wordcounter
+                        wordcount = Counter()
+                        for word in words:
+                            if word not in wordcount:
+                                wordcount[word] = 1
+                            else:
+                                wordcount[word] += 1
+                                print (word, wordcount)
+
+
+
