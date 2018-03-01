@@ -55,6 +55,8 @@ corpus = {}
 #dirpath = '/Users/apc38/Dropbox/workspace/gitHub/wordtracker/MLEembeddings_cainesap/Corpus'  # Andrew
 dirpath = '/Users/martinafernandez/Desktop/Corpus/MLE2010s'  # Martina
 wordcount = Counter()
+for word in words:
+    wordcount[word] = 0
 for root, dirs, files in os.walk(dirpath):
     # all files in directory
     for name in files:
@@ -71,11 +73,9 @@ for root, dirs, files in os.walk(dirpath):
                     if not re.search('^\s*\r\n$', sent):
                         #                       sent = stem_text(sent)  # gensim stemmer: n.b. lower cases too
                         sent = regepxreprocess(sent, repdict)
-                        words = sent.lower().split()
-                        for word in words:
-                            if word not in wordcount:
-                                wordcount[word] = 1
-                            else:
+                        wordtoks = sent.lower().split()
+                        for w in wordtoks:
+                            if w in wordcount:
                                 wordcount[word] += 1
 
 for word, count in wordcount.iteritems():
