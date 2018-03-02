@@ -46,17 +46,11 @@ def replace_all(w, dic):
                 w = v
     return w
 
-words = {'air', 'gas', 'gassed', 'beef', 'butters', 'spice', 'spicy', 'rinse', 'rinsed', 'rinsing', 'jam', 'dip', 'dough', 'bread', 'food', 'sauce', 'whip', 'whipping', 'pepper', 'dry', 'dead', 'hot', 'cold', 'hard', 'soft', 'myth', 'pagan', 'ghost', 'spit', 'lick', 'licked', 'body', 'buff', 'clapped', 'clap', 'man', 'blood', 'safe', 'deep', 'peak', 'long', 'ends', 'bait', 'paper', 'bars', 'spray', 'bare', 'feds', 'pen', 'gangster', 'dutty', 'yard', 'dem', 'nuff', 'ting', 'bun', 'brother', 'cousin', 'brethren', 'family', 'don', 'cheddar', 'moist', 'crumb', 'coin', 'corn', 'roll', 'bounce', 'shook'}
-
-#wordcounter = Counter()
 
 # define corpus dictionary
 corpus = {}
 #dirpath = '/Users/apc38/Dropbox/workspace/gitHub/wordtracker/MLEembeddings_cainesap/Corpus'  # Andrew
-dirpath = '/Users/martinafernandez/Desktop/Corpus/MLE2010s'  # Martina
-wordcount = Counter()
-for word in words:
-    wordcount[word] = 0
+dirpath = '/Users/martinafernandez/Desktop/Corpus/'  # Martina
 for root, dirs, files in os.walk(dirpath):
     # all files in directory
     for name in files:
@@ -71,14 +65,34 @@ for root, dirs, files in os.walk(dirpath):
                 sent = strip_punctuation(sent)  # rm punctuation from sentence string; returns string
                 if sent is not None and re.search('\w', sent):  # ignore empty lines
                     if not re.search('^\s*\r\n$', sent):
-                        #                       sent = stem_text(sent)  # gensim stemmer: n.b. lower cases too
+                        #sent = stem_text(sent)  # gensim stemmer: n.b. lower cases too
                         sent = regepxreprocess(sent, repdict)
-                        wordtoks = sent.lower().split()
-                        for w in wordtoks:
-                            if w in wordcount:
-                                wordcount[word] += 1
+                        wordtokens = sent.lower().split()
+                        ## final step: input to gensim should be a list of sentences (where each sentence is a list of words)
+                        processed = []  # empty list for this sentence
+                        for word in wordtokens:
+                            word = replace_all(word, dic)  # replace first
+                            #word = lemmatizingpreprocess(word)  # then lemmatise
+                            processed.append(word)
+                        ## now check if you've already started the word list for this subcorpus
+                        if subcorp in corpus:
+                            corpus[subcorp].append(processed)  # if yes, add to list of sentences
+                        else:
+                            corpus[subcorp] = [processed]  # else, start a list
 
-for word, count in wordcount.iteritems():
-    print(word, count)
+# words of interest
+words = {'air', 'gas', 'gassed', 'beef', 'butters', 'spice', 'spicy', 'rinse', 'rinsed', 'rinsing', 'jam', 'dip', 'dough', 'bread', 'food', 'sauce', 'whip', 'whipping', 'pepper', 'dry', 'dead', 'hot', 'cold', 'hard', 'soft', 'myth', 'pagan', 'ghost', 'spit', 'lick', 'licked', 'body', 'buff', 'clapped', 'clap', 'man', 'blood', 'safe', 'deep', 'peak', 'long', 'ends', 'bait', 'paper', 'bars', 'spray', 'bare', 'feds', 'pen', 'gangster', 'dutty', 'yard', 'dem', 'nuff', 'ting', 'bun', 'brother', 'cousin', 'brethren', 'family', 'don', 'cheddar', 'moist', 'crumb', 'coin', 'corn', 'roll', 'bounce', 'shook'}
 
-
+for corps, sentences in corpus.iteritems():
+    # start word counter for each
+    wordcount = Counter()
+    for word in words:
+        wordcount[word] = 0
+    for sentence in sentences:
+        tokens = sentence.split()
+        for token in tokens:
+            if token in words:
+                wordcount[token] += 1
+    for word in words:
+        count = wordcount[word]
+        print('%s, %s, %i' % (corpus, word, count))
