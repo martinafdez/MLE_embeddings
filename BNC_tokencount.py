@@ -89,8 +89,7 @@ for corps, sentences in corpus.iteritems():
     for word in words:
         wordcount[word] = 0
     for sentence in sentences:
-        tokens = sentence.split()
-        for token in tokens:
+        for token in sentence:
             if token in words:
                 wordcount[token] += 1
     for word in words:
