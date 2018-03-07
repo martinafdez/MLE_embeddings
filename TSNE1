@@ -15,7 +15,8 @@ from gensim.models import KeyedVectors
 ROOT_DIR= "/Users/martinafernandez/Desktop/TSNE"
 
 def get_words():
-    WORDS = [ "MLE TOKEN..." ]
+    WORDS = ['whip']
+
     if len(sys.argv) > 1:
         WORDS = sys.argv[1:]
 
@@ -58,7 +59,7 @@ def clear_embed_cache():
 import threading
 embed_lock = threading.Lock()
 
-EMBEDDING="/Users/martinafernandez/Desktop/Corpus/"
+EMBEDDING="/Users/martinafernandez/DISSERTATION/Corpus/Standard2010s"
 def load_embeddings(filename=None):
     if not filename:
         filename = EMBEDDING
