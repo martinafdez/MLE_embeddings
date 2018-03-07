@@ -43,5 +43,3 @@ if __name__ == "__main__":
         helpers.savefig("%s_annotated" % word1)
         for year, sim in time_sims.iteritems():
             print year, sim
-
-
