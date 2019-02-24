@@ -1,4 +1,4 @@
 # MLEembeddings
-Code for dissertation topic tracing the semantics of MLE. 
+Dissertation topic tracing the semantics of MLE. 
 Acknowledgements:
 * Andrew Caines
